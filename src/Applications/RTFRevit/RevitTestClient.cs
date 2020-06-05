@@ -32,8 +32,7 @@ namespace RTF.Applications
             {
                 message = "The port is not given or is in a bad format!";
                 return Result.Failed;
-            }
-
+            }            
             ipAddress = IPAddress.Parse(CommonData.LocalIPAddress);
             endPoint = new IPEndPoint(ipAddress, iPort);
             clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);

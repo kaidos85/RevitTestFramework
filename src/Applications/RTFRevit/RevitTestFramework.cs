@@ -27,11 +27,10 @@ namespace RTF.Applications
     public class RevitTestFramework : IExternalCommand, IConsoleTraceListener
     {
         public Result Execute(ExternalCommandData cmdData, ref string message, ElementSet elements)
-        {
+        {            
             using (var consoleInterceptor = new ConsoleOutInterceptor(this))
-            {
+            {                
                 Setup(cmdData);
-
                 var exe = new RevitTestExecutive();
                 return exe.Execute(cmdData, ref message, elements);
             }
@@ -40,7 +39,6 @@ namespace RTF.Applications
         private void Setup(ExternalCommandData cmdData)
         {
             IDictionary<string, string> dataMap = cmdData.JournalData;
-
             if (dataMap.ContainsKey("debug") && dataMap["debug"].ToLower() == "true")
             {
                 Debugger.Launch();

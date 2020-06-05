@@ -71,11 +71,9 @@ namespace RTF.Applications
         {
             try
             {
-                CommandData = revit;
-
+                CommandData = revit;                
                 //Get the data map from the running journal file.
                 IDictionary<string, string> dataMap = revit.JournalData;
-
                 bool canReadData = (0 < dataMap.Count);
 
                 ReadDataFromJournalHash(canReadData, dataMap);

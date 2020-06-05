@@ -860,7 +860,7 @@ namespace RTF.Framework
         private void InitializeProducts()
         {
             Products.Clear();
-            Products.AddRange(RunnerSetupData.FindRevit());
+            Products.AddRange(RunnerSetupData.FindRevit().OrderByDescending(c=>c.Name));
 
             if (Products == null || !Products.Any())
             {
@@ -960,7 +960,7 @@ namespace RTF.Framework
             {
                 FileName = RevitPath,
                 WorkingDirectory = WorkingDirectory,
-                Arguments = journalPath,
+                Arguments = $"/language RUS \"{journalPath}\"",// /language RUS 
                 UseShellExecute = false
             };
 
@@ -1019,14 +1019,14 @@ namespace RTF.Framework
             {
                 FileName = RevitPath,
                 WorkingDirectory = WorkingDirectory,
-                Arguments = journalPath,
+                Arguments = $"/language RUS \"{journalPath}\"",
                 UseShellExecute = false
             };
 
             Console.WriteLine("Running {0}", journalPath);
             var process = new Process { StartInfo = startInfo };
             process.Start();
-            
+
             if (!WaitForTestsToComplete(process))
             {
                 var tests = GetRunnableTests();
@@ -1184,9 +1184,10 @@ namespace RTF.Framework
 
         private ITestData FindTestCase(string testCaseName, string fixtureName)
         {
-            var tests = GetRunnableTests().Where(x => string.CompareOrdinal(x.Name, testCaseName) == 0 &&
+            var t = GetRunnableTests();
+            var tests = t.Where(x => string.CompareOrdinal(x.Name, testCaseName) == 0 &&
                             string.CompareOrdinal(x.Fixture.Name, fixtureName) == 0);
-            return tests.First();
+            return tests.FirstOrDefault();
         }
 
         private static testsuiteType CreateTestSuiteType(string suiteName)
